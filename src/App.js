@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import "./App.css";
+import Header from "./component/master/header";
+import { Routes, Route } from "react-router-dom";
+import Home from "./component/home/home";
+import Auth from "./component/auth/auth";
+import { AuthContext } from "./context/auth-context";
+import { useState } from "react";
 
 function App() {
+  const [authData, setAuthData] = useState({
+    isLogged: false,
+    setLogin: () => setAuthData({...authData, isLogged: true})
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={authData}>
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/" element={<Header />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<Other />} />
+        </Route>
+      </Routes>
+    </AuthContext.Provider>
   );
+}
+
+function Other() {
+  return <h1>It's other</h1>;
 }
 
 export default App;
