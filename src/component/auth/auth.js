@@ -1,7 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import "./auth.css";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
+import { loggedIn } from '../../redux/auth-slice'
+import { useDispatch } from 'react-redux'
 
 const initAuthState = {
   uname: "",
@@ -16,11 +17,12 @@ const secret = {
 
 function Auth() {
   const [auth, setAuth] = useState(initAuthState);
-  const authContext = useContext(AuthContext);
+  const authDispatch = useDispatch();
   let navigate = useNavigate();
+
   function login() {
     if (auth.uname === secret.uname && auth.pwd === secret.pwd) {
-      authContext.setLogin();
+      authDispatch(loggedIn());
       navigate(`/`);
     } else {
       alert("sai rồi bà già");
