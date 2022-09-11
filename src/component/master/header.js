@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
+import { useSelector } from 'react-redux'
 import "./header.css";
 
 function Header() {
@@ -46,9 +45,8 @@ function Header() {
 }
 
 function Menu() {
-  const authContext = useContext(AuthContext);
-  console.log(authContext);
-  if (authContext.isLogged) {
+  const authenticated = useSelector(state => state.auth.isLogged)
+  if (authenticated) {
     return (
       <div className="navbar-nav ml-auto py-0 pr-3 border-right">
         <Link to="/" className="nav-item nav-link active">
